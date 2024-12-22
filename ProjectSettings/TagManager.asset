@@ -4,8 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ranger
+  - TowerRanger
+  - TowerEnemy
+  - BulletRanger
+  - BulletEnemy
   - Enemy
+  - Ranger
   layers:
   - Default
   - TransparentFX
@@ -13,11 +17,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 'Ranger '
+  - Ranger
   - Enemy
-  - 
-  - 
-  - 
+  - Bullet
+  - TowerRanger
+  - TowerEnemy
   - 
   - 
   - 

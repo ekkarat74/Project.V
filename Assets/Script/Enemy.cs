@@ -12,15 +12,19 @@ public class Enemy : MonoBehaviour
 
     public int expValue = 20;          // ค่าประสบการณ์ที่ให้เมื่อศัตรูถูกทำลาย
 
-    private bool isTargetInRange = false; // ตรวจสอบว่ามีเป้าหมายในระยะหรือไม่
-    private Transform target;            // เก็บตำแหน่งของเป้าหมาย
+    private Transform target;          // เป้าหมาย (Ranger)
 
     void Update()
     {
-        attackCooldown -= Time.deltaTime; // ลดเวลารอการยิง
+        attackCooldown -= Time.deltaTime;
 
-        if (isTargetInRange)
+        // ค้นหา Ranger และ TowerRanger ในระยะ
+        Collider2D detectedTarget = Physics2D.OverlapCircle(transform.position, detectionRadius, LayerMask.GetMask("Ranger", "TowerRanger"));
+        if (detectedTarget != null)
         {
+            target = detectedTarget.transform; // เก็บตำแหน่งของเป้าหมาย
+
+            // ยิงเมื่อ Cooldown หมด
             if (attackCooldown <= 0f)
             {
                 Shoot();
@@ -29,7 +33,8 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            MoveForward(); // ถ้าไม่มีเป้าหมายในระยะ ให้เดินต่อ
+            target = null; // ล้างเป้าหมายเมื่อไม่มี Ranger ในระยะ
+            MoveForward();
         }
     }
 
@@ -38,29 +43,11 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector2.left * speed * Time.deltaTime); // เดินไปทางซ้าย
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ranger"))
-        {
-            isTargetInRange = true;
-            target = collision.transform; // เก็บเป้าหมาย
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ranger"))
-        {
-            isTargetInRange = false;
-            target = null; // ล้างเป้าหมาย
-        }
-    }
-
     void Shoot()
     {
-        if (target != null) // ยิงเฉพาะเมื่อมีเป้าหมาย
+        if (target != null)
         {
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation); // ยิงกระสุน
+            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         }
     }
 
@@ -75,12 +62,19 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        // ค้นหา Ranger และเพิ่ม EXP
+        // เพิ่ม EXP ให้ Ranger เมื่อ Enemy ตาย
         Ranger ranger = FindObjectOfType<Ranger>();
         if (ranger != null)
         {
-            ranger.GainExp(expValue); // เพิ่ม EXP ให้ Ranger
+            ranger.GainExp(expValue);
         }
         Destroy(gameObject); // ทำลาย Enemy
+    }
+
+    void OnDrawGizmos()
+    {
+        // วาดระยะ detectionRadius เพื่อช่วยในการดีบัก
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }

@@ -23,10 +23,15 @@ public class Ranger : MonoBehaviour
 
     void Update()
     {
-        attackCooldown -= Time.deltaTime; // ลดเวลารอการยิง
+        attackCooldown -= Time.deltaTime;
 
-        if (isTargetInRange)
+        // ค้นหา Enemy และ TowerEnemy ในระยะ
+        Collider2D detectedTarget = Physics2D.OverlapCircle(transform.position, detectionRadius, LayerMask.GetMask("Enemy", "TowerEnemy"));
+        if (detectedTarget != null)
         {
+            target = detectedTarget.transform; // เก็บตำแหน่งของเป้าหมาย
+
+            // ยิงเมื่อ Cooldown หมด
             if (attackCooldown <= 0f)
             {
                 Shoot();
@@ -35,7 +40,8 @@ public class Ranger : MonoBehaviour
         }
         else
         {
-            MoveForward(); // ถ้าไม่มีเป้าหมายในระยะ ให้เดินต่อ
+            target = null; // ล้างเป้าหมายเมื่อไม่มีศัตรูในระยะ
+            MoveForward();
         }
     }
 
@@ -100,5 +106,13 @@ public class Ranger : MonoBehaviour
     void Die()
     {
         Destroy(gameObject); // ทำลายตัวเองเมื่อพลังชีวิตหมด
+    }
+    
+    void OnDrawGizmos()
+    {
+        // กำหนดสีให้กับ Gizmo
+        Gizmos.color = Color.green;
+        // วาดวงกลมรอบตัววัตถุเพื่อแสดง detectionRadius
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }
