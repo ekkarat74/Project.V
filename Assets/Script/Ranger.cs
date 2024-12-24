@@ -7,9 +7,9 @@ public class Ranger : MonoBehaviour
     public GameObject projectilePrefab; // กระสุนที่ยิงออกไป
     public Transform firePoint;         // จุดยิงกระสุน
     public float attackRate = 1f;       // อัตราการยิงกระสุน
-    private float attackCooldown = 0f;  // ตัวจับเวลา Cooldown
+    private float attackCooldown = 0f;  // ตัวจับเวลา Cooldown การยิง
     public float detectionRadius = 5f;  // ระยะการตรวจจับศัตรู
-
+    public float spawnCooldown = 5f;    // เวลาคูลดาวน์ในการสร้าง Ranger
     public int mineralCost = 50;        // จำนวนแร่ที่ต้องใช้ในการผลิต Ranger
 
     // ระบบเลเวล

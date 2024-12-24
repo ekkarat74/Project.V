@@ -64,6 +64,8 @@ public class TowerEnemy : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject); // ทำลาย Tower เมื่อ HP หมด
+        Debug.Log("TowerEnemy ถูกทำลาย!");
+        GameManager.Instance.EndGame("TowerEnemy");
+        Destroy(gameObject); // ทำลาย TowerEnemy
     }
 }

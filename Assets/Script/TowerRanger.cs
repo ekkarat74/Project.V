@@ -64,6 +64,8 @@ public class TowerRanger : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject); // ทำลาย Tower เมื่อ HP หมด
+        Debug.Log("TowerRanger ถูกทำลาย!");
+        GameManager.Instance.EndGame("TowerRanger");
+        Destroy(gameObject); // ทำลาย TowerRanger
     }
 }
