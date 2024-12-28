@@ -218,9 +218,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a589b34128b3ec43af62c3f44684ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: Level 2
+  speed: 2
+  health: 500
   projectilePrefab: {fileID: 3701983333545765762, guid: b6e94e2d989e14b48b2e825aa73017f2, type: 3}
   firePoint: {fileID: 505672792563862391}
+  attackRate: 0.5
+  detectionRadius: 7
   expValue: 20
 --- !u!1 &4879674835476951510
 GameObject:

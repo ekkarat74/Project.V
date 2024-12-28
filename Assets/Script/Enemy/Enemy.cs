@@ -14,9 +14,17 @@ public class Enemy : MonoBehaviour
 
     private Transform target;          // เป้าหมาย (Ranger)
 
+    // สกิลของศัตรู
+    public GameObject skillEffectPrefab; // เอฟเฟกต์ของสกิล
+    public float skillCooldown = 10f;   // ระยะเวลาคูลดาวน์ของสกิล
+    private float currentSkillCooldown = 0f;
+    public int skillTriggerHealth = 20; // พลังชีวิตที่ต้องลดต่ำกว่าเพื่อลงสกิล
+    private bool skillActivated = false; // ตรวจสอบว่าลงสกิลไปแล้วหรือยัง
+
     void Update()
     {
         attackCooldown -= Time.deltaTime;
+        currentSkillCooldown -= Time.deltaTime;
 
         // ค้นหา Ranger และ TowerRanger ในระยะ
         Collider2D detectedTarget = Physics2D.OverlapCircle(transform.position, detectionRadius, LayerMask.GetMask("Ranger", "TowerRanger"));
@@ -36,6 +44,9 @@ public class Enemy : MonoBehaviour
             target = null; // ล้างเป้าหมายเมื่อไม่มี Ranger ในระยะ
             MoveForward();
         }
+
+        // เช็คเงื่อนไขสำหรับการใช้สกิล
+        CheckAndUseSkill();
     }
 
     void MoveForward()
@@ -69,6 +80,25 @@ public class Enemy : MonoBehaviour
             ranger.GainExp(expValue);
         }
         Destroy(gameObject); // ทำลาย Enemy
+    }
+
+    void CheckAndUseSkill()
+    {
+        if (!skillActivated && health <= skillTriggerHealth && currentSkillCooldown <= 0)
+        {
+            ActivateSkill();
+            skillActivated = true; // สกิลทำงานครั้งเดียว
+        }
+    }
+
+    void ActivateSkill()
+    {
+        if (skillEffectPrefab != null)
+        {
+            Instantiate(skillEffectPrefab, transform.position, Quaternion.identity);
+            Debug.Log("Enemy ใช้สกิล!");
+            currentSkillCooldown = skillCooldown; // รีเซ็ตคูลดาวน์
+        }
     }
 
     void OnDrawGizmos()

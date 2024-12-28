@@ -4,10 +4,10 @@ using UnityEngine.UI;
 public class RangerSpawner : MonoBehaviour
 {
     public GameObject[] rangerPrefabs;   // อาเรย์สำหรับเก็บ Prefab ของ Ranger
+    public Button[] spawnButtons;       // ปุ่ม UI สำหรับ Spawn Ranger
     public Transform spawnPoint;        // ตำแหน่งที่ใช้ Spawn
     public MineralSystem mineralSystem; // อ้างอิงระบบแร่
 
-    public Button[] spawnButtons;       // ปุ่ม UI สำหรับ Spawn Ranger
     private float[] cooldownTimers;     // ตัวจับเวลาสำหรับคูลดาวน์ของแต่ละปุ่ม
 
     void Start()
