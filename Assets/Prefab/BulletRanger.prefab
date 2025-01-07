@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5252090509513816984}
   - component: {fileID: 7683429792665112873}
   - component: {fileID: 3124177739382904872}
-  - component: {fileID: 587586812665384152}
   m_Layer: 0
   m_Name: BulletRanger
   m_TagString: BulletRanger
@@ -149,18 +148,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &587586812665384152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3701983333545765762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fa0923996c7ee94d932fbacd7b7edd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 15
-  damage: 10
-  lifetime: 3

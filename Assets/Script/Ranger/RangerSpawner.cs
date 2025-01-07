@@ -1,18 +1,27 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RangerSpawner : MonoBehaviour
 {
-    public GameObject[] rangerPrefabs;   // อาเรย์สำหรับเก็บ Prefab ของ Ranger
-    public Button[] spawnButtons;       // ปุ่ม UI สำหรับ Spawn Ranger
-    public Transform spawnPoint;        // ตำแหน่งที่ใช้ Spawn
-    public MineralSystem mineralSystem; // อ้างอิงระบบแร่
+    public GameObject[] rangerPrefabs;    // อาเรย์สำหรับเก็บ Prefab ของ Ranger
+    public Button[] spawnButtons;        // ปุ่ม UI สำหรับ Spawn Ranger
+    public TextMeshProUGUI[] cooldownTexts; // TMP UI สำหรับแสดงเวลาคูลดาวน์ของแต่ละปุ่ม
+    public Transform spawnPoint;         // ตำแหน่งที่ใช้ Spawn
+    public MineralSystem mineralSystem;  // อ้างอิงระบบแร่
 
-    private float[] cooldownTimers;     // ตัวจับเวลาสำหรับคูลดาวน์ของแต่ละปุ่ม
+    private float[] cooldownTimers;      // ตัวจับเวลาสำหรับคูลดาวน์ของแต่ละปุ่ม
+    public RangerUI rangerUI;            // อ้างอิงไปยัง Ranger UI
 
     void Start()
     {
         cooldownTimers = new float[rangerPrefabs.Length];
+
+        // เริ่มต้นข้อความคูลดาวน์
+        for (int i = 0; i < cooldownTexts.Length; i++)
+        {
+            cooldownTexts[i].text = ""; // เริ่มต้นข้อความเป็นว่าง
+        }
     }
 
     void Update()
@@ -23,7 +32,19 @@ public class RangerSpawner : MonoBehaviour
             if (cooldownTimers[i] > 0)
             {
                 cooldownTimers[i] -= Time.deltaTime;
-                spawnButtons[i].interactable = cooldownTimers[i] <= 0; // ปิดปุ่มถ้ายังไม่หมดคูลดาวน์
+
+                // ปิดปุ่มถ้ายังไม่หมดคูลดาวน์
+                spawnButtons[i].interactable = cooldownTimers[i] <= 0;
+
+                // อัปเดตข้อความคูลดาวน์
+                cooldownTexts[i].text = cooldownTimers[i] > 0
+                    ? $"{Mathf.Ceil(cooldownTimers[i])}s" // แสดงเวลาคูลดาวน์เป็นวินาที
+                    : "";
+            }
+            else
+            {
+                // ลบข้อความคูลดาวน์เมื่อหมดเวลา
+                cooldownTexts[i].text = "";
             }
         }
     }
@@ -35,9 +56,12 @@ public class RangerSpawner : MonoBehaviour
             Ranger ranger = rangerPrefabs[index].GetComponent<Ranger>();
             if (ranger != null && mineralSystem.SpendMinerals(ranger.mineralCost))
             {
-                Instantiate(rangerPrefabs[index], spawnPoint.position, spawnPoint.rotation);
+                GameObject rangerObject = Instantiate(rangerPrefabs[index], spawnPoint.position, spawnPoint.rotation);
                 Debug.Log($"สร้าง Ranger (ใช้แร่ {ranger.mineralCost})");
                 cooldownTimers[index] = ranger.spawnCooldown; // ใช้คูลดาวน์จาก Ranger
+
+                // อัปเดต UI
+                rangerUI.UpdateRangerStats(ranger);
             }
         }
         else

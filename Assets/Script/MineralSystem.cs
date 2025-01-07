@@ -12,18 +12,23 @@ public class MineralSystem : MonoBehaviour
     public int[] upgradeCosts = { 50, 100, 150, 200, 250, 300, 350 };     // ค่าใช้จ่ายสำหรับอัปเกรดในแต่ละขั้น
     public float[] timeMineralValues = { 2.0f, 1.8f, 1.6f, 1.4f, 1.2f, 1.0f, 0.8f }; // เวลาในการผลิตแร่ต่อขั้น
     public int[] mineralsPerSecondValues = { 10, 15, 20, 25, 30, 35, 40 }; // ค่า mineralsPerSecond ในแต่ละขั้น
-    private int currentUpgradeLevel = 0;    // ขั้นอัปเกรดปัจจุบัน (เริ่มที่ 0)
+    public int currentUpgradeLevel = 0;    // ขั้นอัปเกรดปัจจุบัน (เริ่มที่ 0)
 
     [Header("UI Elements")]
-    public TextMeshProUGUI mineralsText;    // TMP UI สำหรับแสดงจำนวนแร่
-    public Button upgradeButton;            // ปุ่มสำหรับอัปเกรดแร่
-    public TextMeshProUGUI upgradeCostText; // TMP UI สำหรับแสดงค่าใช้จ่ายในการอัปเกรด
+    public TextMeshProUGUI mineralsText;       // TMP UI สำหรับแสดงจำนวนแร่
+    public Button upgradeButton;               // ปุ่มสำหรับอัปเกรดแร่
+    public TextMeshProUGUI upgradeCostText;    // TMP UI สำหรับแสดงค่าใช้จ่ายในการอัปเกรด
 
     void Start()
     {
+        // ตั้งค่า currentMinerals ให้เท่ากับค่า maxMinerals ของระดับปัจจุบัน
+        currentMinerals = upgradeMaxValues[currentUpgradeLevel];
+
+        // อัปเดต UI
         UpdateMineralsUI();
         UpdateUpgradeButton();
 
+        // เพิ่ม Listener ให้ปุ่มอัปเกรด
         if (upgradeButton != null)
         {
             upgradeButton.onClick.AddListener(UpgradeMaxMinerals);
@@ -40,6 +45,22 @@ public class MineralSystem : MonoBehaviour
         }
     }
 
+    public bool SpendMinerals(int amount)
+    {
+        if (currentMinerals >= amount)
+        {
+            currentMinerals -= amount;
+            UpdateMineralsUI();
+            UpdateUpgradeButton();
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning("แร่ไม่เพียงพอ!");
+            return false;
+        }
+    }
+
     void ProduceMinerals()
     {
         int maxMinerals = upgradeMaxValues[currentUpgradeLevel]; // ดึงค่า maxMinerals ตามระดับขั้น
@@ -51,21 +72,7 @@ public class MineralSystem : MonoBehaviour
                 currentMinerals = maxMinerals;
             }
             UpdateMineralsUI();
-        }
-    }
-
-    public bool SpendMinerals(int amount)
-    {
-        if (currentMinerals >= amount)
-        {
-            currentMinerals -= amount;
-            UpdateMineralsUI();
-            return true;
-        }
-        else
-        {
-            Debug.LogWarning("แร่ไม่เพียงพอ!");
-            return false;
+            UpdateUpgradeButton();
         }
     }
 
@@ -85,11 +92,11 @@ public class MineralSystem : MonoBehaviour
             if (currentUpgradeLevel < upgradeMaxValues.Length - 1)
             {
                 upgradeButton.interactable = currentMinerals >= upgradeCosts[currentUpgradeLevel];
-                upgradeCostText.text = $"Upgrade: {upgradeCosts[currentUpgradeLevel]}";
+                upgradeCostText.text = $"Cost: {upgradeCosts[currentUpgradeLevel]}";
             }
             else
             {
-                upgradeButton.interactable = false; // ปิดปุ่มเมื่อถึงขั้นสุดท้าย
+                upgradeButton.interactable = false;
                 upgradeCostText.text = "Max Level";
             }
         }

@@ -224,12 +224,16 @@ MonoBehaviour:
   firePoint: {fileID: 172109408874808453}
   attackRate: 0.75
   detectionRadius: 15
-  spawnCooldown: 5
-  mineralCost: 30
+  spawnCooldown: 2
+  mineralCost: 250
   level: 1
   currentExp: 0
   expToNextLevel: 100
   bonusHealthPerLevel: 20
+  projectileSpeed: 15
+  projectileDamage: 20
+  projectileLifetime: 3
+  selectedSkill: 5
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0

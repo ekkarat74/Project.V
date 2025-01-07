@@ -5,7 +5,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject[] enemyPrefabs; // อาเรย์สำหรับเก็บ Prefab ของ Enemy
     public Transform spawnPoint;      // ตำแหน่งที่ใช้ Spawn
     public float spawnInterval = 3f;  // เวลาระหว่างการ Spawn
-    private float timer = 0f;         // ตัวจับเวลา
+    private float timer = 0f;        // ตัวจับเวลา
 
     void Update()
     {

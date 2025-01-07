@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [Header("UI Elements")]
     public GameObject gameOverPanel; // Panel ที่จะแสดงเมื่อเกมจบ
     public Button mainMenuButton;    // ปุ่มกลับไปที่เมนูหลัก
+    public Button speedUpButton;     // ปุ่มเร่งความเร็วเกม
+
+    private bool isSpeedUp = false;  // ตัวบ่งชี้ว่าเกมกำลังเร่งความเร็วหรือไม่
 
     private void Awake()
     {
@@ -37,6 +40,12 @@ public class GameManager : MonoBehaviour
         {
             mainMenuButton.onClick.AddListener(GoToMainMenu);
         }
+
+        // ผูกฟังก์ชันกับปุ่มเร่งความเร็ว
+        if (speedUpButton != null)
+        {
+            speedUpButton.onClick.AddListener(ToggleSpeedUp);
+        }
     }
 
     // ฟังก์ชันเรียกเมื่อ TowerEnemy หรือ TowerRanger ถูกทำลาย
@@ -55,5 +64,13 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1; // รีเซ็ตเวลาให้ปกติ
         SceneManager.LoadScene("MainMenu"); // โหลดฉากเมนูหลัก
+    }
+
+    // ฟังก์ชันสำหรับเปิด/ปิดการเร่งความเร็ว
+    public void ToggleSpeedUp()
+    {
+        isSpeedUp = !isSpeedUp;
+        Time.timeScale = isSpeedUp ? 2f : 1f; // ถ้าเร่งความเร็วจะใช้ 2 เท่า ถ้าไม่เร่งจะใช้ 1 เท่า
+        Debug.Log(isSpeedUp ? "เกมกำลังเร่งความเร็ว" : "เกมกลับสู่ความเร็วปกติ");
     }
 }
