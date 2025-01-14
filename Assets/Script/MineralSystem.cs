@@ -81,7 +81,7 @@ public class MineralSystem : MonoBehaviour
         int maxMinerals = upgradeMaxValues[currentUpgradeLevel]; // ดึงค่า maxMinerals ตามระดับขั้น
         if (mineralsText != null)
         {
-            mineralsText.text = $"Minerals: {currentMinerals} / {maxMinerals}";
+            mineralsText.text = $"{currentMinerals} / {maxMinerals}";
         }
     }
 

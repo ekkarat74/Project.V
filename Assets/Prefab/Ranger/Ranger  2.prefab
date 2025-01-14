@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3001278675168321026}
   - component: {fileID: 5983397569786757022}
   m_Layer: 6
-  m_Name: Ranger  4
+  m_Name: Ranger  2
   m_TagString: Ranger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.5836085, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.32140875, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -218,22 +218,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d417573c8306e7a42b0a6171b255caba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  health: 20
+  speed: 10
+  health: 60
   projectilePrefab: {fileID: 3701983333545765762, guid: c8f2e26593d3fc84283c12e9bd56f5e4, type: 3}
   firePoint: {fileID: 172109408874808453}
-  attackRate: 0.5
+  attackRate: 1
   detectionRadius: 15
-  spawnCooldown: 3
-  mineralCost: 100
+  spawnCooldown: 1
+  mineralCost: 400
   level: 1
   currentExp: 0
   expToNextLevel: 100
   bonusHealthPerLevel: 20
   projectileSpeed: 15
-  projectileDamage: 30
+  projectileDamage: 70
   projectileLifetime: 3
-  selectedSkill: 4
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0

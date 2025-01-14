@@ -15,19 +15,7 @@ public class CameraControl : MonoBehaviour
         // ======== การเลื่อนกล้องด้วยปุ่ม A และ D ========
         float horizontalInput = Input.GetAxis("Horizontal"); // รับค่า A และ D
         transform.position += new Vector3(horizontalInput * moveSpeed * Time.deltaTime, 0, 0);
-
-        // ======== การเลื่อนกล้องด้วยการคลิกเมาส์ ========
-        if (Input.GetMouseButtonDown(0)) // เมื่อกดเมาส์ซ้าย
-        {
-            isDragging = true;
-            initialMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-
-        if (Input.GetMouseButtonUp(0)) // เมื่อปล่อยเมาส์ซ้าย
-        {
-            isDragging = false;
-        }
-
+        
         if (isDragging)
         {
             Vector3 currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

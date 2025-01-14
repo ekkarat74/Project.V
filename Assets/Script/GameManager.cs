@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // สำหรับการเปลี่ยนฉาก
-using UnityEngine.UI;              // สำหรับจัดการ UI
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
