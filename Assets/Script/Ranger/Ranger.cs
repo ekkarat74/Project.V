@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 public class Ranger : MonoBehaviour
 {
@@ -155,6 +156,11 @@ public class ProjectileBehavior : MonoBehaviour
             Vector2 direction = (target.position - transform.position).normalized;
             transform.Translate(direction * speed * Time.deltaTime);
         }
+        else
+        {
+            // ค้นหาเป้าหมายใหม่เมื่อเป้าหมายเดิมหายไป
+            FindNewTarget();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -180,5 +186,29 @@ public class ProjectileBehavior : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+
+    private void FindNewTarget()
+    {
+        Collider2D[] detectedTargets = Physics2D.OverlapCircleAll(transform.position, 5f, LayerMask.GetMask("Enemy", "TowerEnemy"));
+        if (detectedTargets.Length > 0)
+        {
+            target = detectedTargets
+                .Select(c => c.transform)
+                .OrderBy(t => Vector2.Distance(transform.position, t.position))
+                .FirstOrDefault();
+        }
+
+        if (target == null)
+        {
+            // หากไม่มีเป้าหมายใหม่ ทำลายกระสุน
+            Destroy(gameObject);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 5f); // ใช้แสดงระยะค้นหาเป้าหมาย
     }
 }

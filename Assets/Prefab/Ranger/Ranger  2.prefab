@@ -231,7 +231,7 @@ MonoBehaviour:
   expToNextLevel: 100
   bonusHealthPerLevel: 20
   projectileSpeed: 15
-  projectileDamage: 70
+  projectileDamage: 100
   projectileLifetime: 3
   rangerTypeIndex: 2
 --- !u!1 &4215659866348341725
