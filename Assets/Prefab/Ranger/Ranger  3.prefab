@@ -233,6 +233,7 @@ MonoBehaviour:
   projectileSpeed: 15
   projectileDamage: 90
   projectileLifetime: 3
+  rangerTypeIndex: 0
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0

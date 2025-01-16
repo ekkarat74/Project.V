@@ -38,6 +38,22 @@ public class Ranger : MonoBehaviour
     public int projectileDamage = 10;       // ความเสียหายของกระสุน
     public float projectileLifetime = 3f;   // อายุของกระสุนก่อนทำลายตัวเอง
 
+    private static RangerUIController uiController;
+
+    [Header("Ranger Type")]
+    public int rangerTypeIndex; // ประเภทของ Ranger (Index สำหรับเลือก UI)
+    
+    void Start()
+    {
+        if (uiController == null)
+        {
+            uiController = FindObjectOfType<RangerUIController>();
+        }
+
+        // เพิ่ม UI ของ Ranger โดยระบุ Index
+        uiController?.AddRangerUI(this, rangerTypeIndex);
+    }
+    
     void Update()
     {
         attackCooldown -= Time.deltaTime;
@@ -104,6 +120,8 @@ public class Ranger : MonoBehaviour
 
     void Die()
     {
+        // ลบ UI เมื่อ Ranger ตาย
+        uiController?.RemoveRangerUI(this);
         Destroy(gameObject);
     }
 
