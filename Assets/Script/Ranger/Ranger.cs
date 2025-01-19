@@ -193,7 +193,7 @@ public class Ranger : MonoBehaviour
             if (ranger != this && Vector2.Distance(transform.position, ranger.transform.position) <= detectionRadius)
             {
                 // ตรวจสอบว่า health ต่ำกว่า healThreshold ของพลังชีวิตสูงสุด
-                float maxHealth = 100f; // สมมติว่าพลังชีวิตสูงสุดคือ 100
+                float maxHealth = health;
                 if (ranger.health <= maxHealth * healThreshold)
                 {
                     // Heal ranger โดยเพิ่ม health ตาม healAmount
