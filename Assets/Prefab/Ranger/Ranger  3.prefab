@@ -237,9 +237,12 @@ MonoBehaviour:
   currentSkill: 3
   skillRangeMultiplier: 1.5
   skillDamageMultiplier: 2
-  spreadShotProjectileCount: 5
   explosiveRadius: 3
   explosiveDamage: 20
+  rapidFireMultiplier: 1
+  healAmount: 50
+  healThreshold: 0.2
+  equipmentPrefabs: []
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0

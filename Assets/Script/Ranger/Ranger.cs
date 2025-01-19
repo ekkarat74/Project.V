@@ -70,7 +70,17 @@ public class Ranger : MonoBehaviour
     [Header("Heal Ranger Properties")]
     public int healAmount = 50;            // จำนวนที่ Heal
     public float healThreshold = 0.2f;     // เปอร์เซ็นต์พลังชีวิตต่ำสุดที่ต้อง Heal
+    public float healCooldown = 5f;        // ระยะเวลาคูลดาวน์สำหรับการ Heal
 
+    private float lastHealTime = -Mathf.Infinity; // เก็บเวลาครั้งสุดท้ายที่ทำการ Heal
+
+    [Header("Equipment System")]
+    public GameObject[] equipmentPrefabs; // อุปกรณ์ที่ติดตั้งบน Ranger
+
+    private float baseSpeed = 2f;               // ความเร็วพื้นฐาน
+    private float baseAttackRate = 1f;          // อัตราการยิงพื้นฐาน
+    private float baseDetectionRadius = 5f;     // ระยะตรวจจับพื้นฐาน
+    
     void Start()
     {
         if (uiController == null)
@@ -78,8 +88,9 @@ public class Ranger : MonoBehaviour
             uiController = FindObjectOfType<RangerUIController>();
         }
 
-        // เพิ่ม UI ของ Ranger โดยระบุ Index
         uiController?.AddRangerUI(this, rangerTypeIndex);
+
+        ApplyEquipmentStats(); // ใช้ค่าความสามารถจากอุปกรณ์
     }
     
     void Update()
@@ -167,18 +178,39 @@ public class Ranger : MonoBehaviour
     
     void HealLowHealthRanger()
     {
+        // ตรวจสอบว่าพ้นช่วงคูลดาวน์แล้วหรือยัง
+        if (Time.time - lastHealTime < healCooldown)
+        {
+            return; // ยังอยู่ในช่วงคูลดาวน์
+        }
+
+        // ค้นหา Ranger ทั้งหมดใน Scene
         Ranger[] rangers = FindObjectsOfType<Ranger>();
+
         foreach (Ranger ranger in rangers)
         {
-            if (ranger != this && ranger.health <= ranger.health * healThreshold)
+            // ตรวจสอบว่าไม่ใช่ตัวเอง และอยู่ในระยะ detectionRadius
+            if (ranger != this && Vector2.Distance(transform.position, ranger.transform.position) <= detectionRadius)
             {
-                ranger.health += healAmount;
-                if (ranger.health > 100) // สมมติว่า Max Health คือ 100
+                // ตรวจสอบว่า health ต่ำกว่า healThreshold ของพลังชีวิตสูงสุด
+                float maxHealth = 100f; // สมมติว่าพลังชีวิตสูงสุดคือ 100
+                if (ranger.health <= maxHealth * healThreshold)
                 {
-                    ranger.health = 100;
+                    // Heal ranger โดยเพิ่ม health ตาม healAmount
+                    ranger.health += healAmount;
+
+                    // ตรวจสอบไม่ให้เกินพลังชีวิตสูงสุด
+                    if (ranger.health > maxHealth)
+                    {
+                        ranger.health = (int)maxHealth;
+                    }
+
+                    Debug.Log($"Ranger {ranger.name} ได้รับการ Heal จำนวน {healAmount} HP");
+
+                    // บันทึกเวลาที่ทำการ Heal
+                    lastHealTime = Time.time;
+                    break; // Heal เพียง 1 ตัวในรอบ
                 }
-                Debug.Log($"Ranger {ranger.name} ได้รับการ Heal {healAmount} HP");
-                break; // Heal แค่ตัวเดียวในรอบ
             }
         }
     }
@@ -200,7 +232,41 @@ public class Ranger : MonoBehaviour
         health += bonusHealthPerLevel;
         Debug.Log($"Ranger เลเวลอัพ! เลเวล: {level}");
     }
+    
+    void ApplyEquipmentStats()
+    {
+        // ตรวจสอบว่ามีอุปกรณ์ติดตั้งหรือไม่
+        if (equipmentPrefabs != null && equipmentPrefabs.Length > 0)
+        {
+            foreach (GameObject equipmentPrefab in equipmentPrefabs)
+            {
+                if (equipmentPrefab != null)
+                {
+                    // เพิ่มค่าความเร็ว
+                    if (equipmentPrefab.TryGetComponent(out SpeedBooster speedBooster))
+                    {
+                        speed += speedBooster.speedBonus;
+                    }
 
+                    // เพิ่มอัตราการยิง
+                    if (equipmentPrefab.TryGetComponent(out AttackRateBooster attackRateBooster))
+                    {
+                        attackRate += attackRateBooster.attackRateBonus;
+                    }
+
+                    // เพิ่มระยะตรวจจับ
+                    if (equipmentPrefab.TryGetComponent(out DetectionRadiusBooster detectionRadiusBooster))
+                    {
+                        detectionRadius += detectionRadiusBooster.detectionRadiusBonus;
+                    }
+                }
+            }
+        }
+
+        // ล็อกค่าหลังจากเซ็ตอุปกรณ์
+        Debug.Log($"Ranger Stats - Speed: {speed}, Attack Rate: {attackRate}, Detection Radius: {detectionRadius}");
+    }
+    
     public void TakeDamage(int damage)
     {
         health -= damage;

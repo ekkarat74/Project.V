@@ -223,7 +223,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3701983333545765762, guid: c8f2e26593d3fc84283c12e9bd56f5e4, type: 3}
   firePoint: {fileID: 172109408874808453}
   attackRate: 0.5
-  detectionRadius: 15
+  detectionRadius: 1
   spawnCooldown: 3
   mineralCost: 100
   level: 1
@@ -234,16 +234,16 @@ MonoBehaviour:
   projectileDamage: 110
   projectileLifetime: 3
   rangerTypeIndex: 4
-  currentSkill: 4
+  currentSkill: 3
   skillRangeMultiplier: 1.5
   skillDamageMultiplier: 2
-  spreadShotProjectileCount: 5
   explosiveRadius: 3
   explosiveDamage: 20
-  rapidFireRange: 3
   rapidFireMultiplier: 2
   healAmount: 50
-  healThreshold: 0.2
+  healThreshold: 0.5
+  equipmentPrefabs:
+  - {fileID: 5961822443883744763, guid: a022a03863a52b94e96876d431247aa4, type: 3}
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0
