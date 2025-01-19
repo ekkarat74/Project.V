@@ -234,6 +234,12 @@ MonoBehaviour:
   projectileDamage: 50
   projectileLifetime: 3
   rangerTypeIndex: 1
+  currentSkill: 1
+  skillRangeMultiplier: 1.5
+  skillDamageMultiplier: 2
+  spreadShotProjectileCount: 5
+  explosiveRadius: 3
+  explosiveDamage: 20
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0

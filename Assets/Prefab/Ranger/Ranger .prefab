@@ -233,6 +233,16 @@ MonoBehaviour:
   projectileSpeed: 15
   projectileDamage: 30
   projectileLifetime: 3
+  rangerTypeIndex: 0
+  currentSkill: 0
+  skillRangeMultiplier: 1.5
+  skillDamageMultiplier: 2
+  explosiveRadius: 3
+  explosiveDamage: 20
+  rapidFireRange: 3
+  rapidFireMultiplier: 2
+  healAmount: 50
+  healThreshold: 0.2
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0
