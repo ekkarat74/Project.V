@@ -145,6 +145,9 @@ public class Ranger : MonoBehaviour
                 case SkillType.HealRanger:
                     HealLowHealthRanger();
                     break;
+                case skillType.RapidFire:
+                    FireRate();
+                    break;
                 default:
                     ShootNormal();
                     break;
@@ -175,6 +178,12 @@ public class Ranger : MonoBehaviour
         ExplosiveProjectileBehavior projectileBehavior = projectile.AddComponent<ExplosiveProjectileBehavior>();
         projectileBehavior.Initialize(target, projectileSpeed, explosiveDamage, explosiveRadius, projectileLifetime);
     }
+
+    void FireRate()
+    {
+
+    }
+
     
     void HealLowHealthRanger()
     {
