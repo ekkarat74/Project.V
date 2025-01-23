@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Linq; // สำหรับการค้นหา Ranger ที่มีพลังชีวิตต่ำที่สุด
+using System.Linq;
 
 public class Enemy : MonoBehaviour
 {

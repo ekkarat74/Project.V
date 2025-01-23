@@ -234,15 +234,19 @@ MonoBehaviour:
   projectileDamage: 90
   projectileLifetime: 3
   rangerTypeIndex: 3
-  currentSkill: 3
+  currentSkill: 4
   skillRangeMultiplier: 1.5
   skillDamageMultiplier: 2
   explosiveRadius: 3
   explosiveDamage: 20
   rapidFireMultiplier: 1
   healAmount: 50
-  healThreshold: 0.2
-  equipmentPrefabs: []
+  healThreshold: 0.5
+  healCooldown: 5
+  equipmentPrefabs:
+  - {fileID: 2028472100205862762, guid: 691e9eccad4fd7f46bb865d11d39f8f0, type: 3}
+  - {fileID: 5961822443883744763, guid: a022a03863a52b94e96876d431247aa4, type: 3}
+  - {fileID: 8308585529269189550, guid: 0811d6c6783d96b4496aa610d8d22e4c, type: 3}
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0

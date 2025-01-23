@@ -240,10 +240,9 @@ MonoBehaviour:
   explosiveRadius: 3
   explosiveDamage: 20
   rapidFireMultiplier: 2
-  healAmount: 50
-  healThreshold: 0.2
   equipmentPrefabs:
   - {fileID: 5961822443883744763, guid: a022a03863a52b94e96876d431247aa4, type: 3}
+  - {fileID: 8308585529269189550, guid: e529096451565944c85b9d4e8fe1c56c, type: 3}
 --- !u!1 &4215659866348341725
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ public class Ranger : MonoBehaviour
         PowerShot,      // สกิล 1: ยิงดาเมจแรงขึ้น
         ExplosiveShot,  // สกิล 2: ยิงกระสุนแบบดาเมจวงกว้าง
         RapidFire,      // สกิล 3: ยิงเร็วขึ้นเมื่อศัตรูเข้าใกล้
-        HealRanger      // สกิล 4: ฮีล Ranger ตัวอื่นใน Scene
     }
 
     // คุณสมบัติพื้นฐานของ Ranger
@@ -66,11 +65,6 @@ public class Ranger : MonoBehaviour
     
     [Header("Rapid Fire Properties")]
     public float rapidFireMultiplier = 2f; // ตัวคูณอัตราการยิงเร็วขึ้น
-    
-    [Header("Heal Ranger Properties")]
-    public int healAmount = 50;            // จำนวนที่ Heal
-    public float healThreshold = 0.2f;     // เปอร์เซ็นต์พลังชีวิตต่ำสุดที่ต้อง Heal
-    public float healCooldown = 5f;        // ระยะเวลาคูลดาวน์สำหรับการ Heal
 
     private float lastHealTime = -Mathf.Infinity; // เก็บเวลาครั้งสุดท้ายที่ทำการ Heal
 
@@ -142,9 +136,6 @@ public class Ranger : MonoBehaviour
                 case SkillType.ExplosiveShot:
                     ShootExplosiveShot();
                     break;
-                case SkillType.HealRanger:
-                    HealLowHealthRanger();
-                    break;
                 default:
                     ShootNormal();
                     break;
@@ -174,45 +165,6 @@ public class Ranger : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         ExplosiveProjectileBehavior projectileBehavior = projectile.AddComponent<ExplosiveProjectileBehavior>();
         projectileBehavior.Initialize(target, projectileSpeed, explosiveDamage, explosiveRadius, projectileLifetime);
-    }
-    
-    void HealLowHealthRanger()
-    {
-        // ตรวจสอบว่าพ้นช่วงคูลดาวน์แล้วหรือยัง
-        if (Time.time - lastHealTime < healCooldown)
-        {
-            return; // ยังอยู่ในช่วงคูลดาวน์
-        }
-
-        // ค้นหา Ranger ทั้งหมดใน Scene
-        Ranger[] rangers = FindObjectsOfType<Ranger>();
-
-        foreach (Ranger ranger in rangers)
-        {
-            // ตรวจสอบว่าไม่ใช่ตัวเอง และอยู่ในระยะ detectionRadius
-            if (ranger != this && Vector2.Distance(transform.position, ranger.transform.position) <= detectionRadius)
-            {
-                // ตรวจสอบว่า health ต่ำกว่า healThreshold ของพลังชีวิตสูงสุด
-                float maxHealth = health;
-                if (ranger.health <= maxHealth * healThreshold)
-                {
-                    // Heal ranger โดยเพิ่ม health ตาม healAmount
-                    ranger.health += healAmount;
-
-                    // ตรวจสอบไม่ให้เกินพลังชีวิตสูงสุด
-                    if (ranger.health > maxHealth)
-                    {
-                        ranger.health = (int)maxHealth;
-                    }
-
-                    Debug.Log($"Ranger {ranger.name} ได้รับการ Heal จำนวน {healAmount} HP");
-
-                    // บันทึกเวลาที่ทำการ Heal
-                    lastHealTime = Time.time;
-                    break; // Heal เพียง 1 ตัวในรอบ
-                }
-            }
-        }
     }
     
     public void GainExp(int exp)
@@ -258,6 +210,12 @@ public class Ranger : MonoBehaviour
                     if (equipmentPrefab.TryGetComponent(out DetectionRadiusBooster detectionRadiusBooster))
                     {
                         detectionRadius += detectionRadiusBooster.detectionRadiusBonus;
+                    }
+                    
+                    //เพิ่มดาเมจ
+                    if (equipmentPrefab.TryGetComponent(out DamageBooster damageBooster))
+                    {
+                        projectileDamage += damageBooster.damage;
                     }
                 }
             }

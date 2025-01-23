@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5961822443883744763
+--- !u!1 &8308585529269189550
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 472611076296563321}
-  - component: {fileID: 2357087545930171610}
+  - component: {fileID: 1402253934361169477}
+  - component: {fileID: 3984492399026927935}
   m_Layer: 0
-  m_Name: Detection
+  m_Name: DamageBooster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &472611076296563321
+--- !u!4 &1402253934361169477
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5961822443883744763}
+  m_GameObject: {fileID: 8308585529269189550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.5054927, y: -1.8922881, z: -0.06857186}
@@ -32,16 +32,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2357087545930171610
+--- !u!114 &3984492399026927935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5961822443883744763}
+  m_GameObject: {fileID: 8308585529269189550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 417570387b9b2ad4ca3e21bf8c726195, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a78761751edd5e46a1f3e446d59dc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadiusBonus: 2
+  damage: 30

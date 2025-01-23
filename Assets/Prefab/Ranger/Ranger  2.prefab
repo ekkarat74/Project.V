@@ -218,12 +218,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d417573c8306e7a42b0a6171b255caba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 2
   health: 60
   projectilePrefab: {fileID: 3701983333545765762, guid: c8f2e26593d3fc84283c12e9bd56f5e4, type: 3}
   firePoint: {fileID: 172109408874808453}
   attackRate: 1
-  detectionRadius: 15
+  detectionRadius: 10
   spawnCooldown: 1
   mineralCost: 400
   level: 1
@@ -237,11 +237,12 @@ MonoBehaviour:
   currentSkill: 2
   skillRangeMultiplier: 1.5
   skillDamageMultiplier: 2
-  explosiveRadius: 3
+  explosiveRadius: 5
   explosiveDamage: 20
   rapidFireMultiplier: 2
   healAmount: 50
   healThreshold: 0.2
+  healCooldown: 5
   equipmentPrefabs:
   - {fileID: 8308585529269189550, guid: 0811d6c6783d96b4496aa610d8d22e4c, type: 3}
 --- !u!1 &4215659866348341725
