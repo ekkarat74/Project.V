@@ -14,6 +14,8 @@ public class EnemySpawner : MonoBehaviour
     public Transform spawnPoint;         // ตำแหน่งที่ใช้ Spawn
     public float waveInterval = 5f;      // เวลาพักระหว่าง Wave
 
+    public bool isSkillActive = false; // เช็คสถานะว่ามีสกิลทำงานอยู่หรือไม่
+    
     private float spawnTimer = 0f;       // ตัวจับเวลาสำหรับการ Spawn
     private float waveTimer = 0f;        // ตัวจับเวลาสำหรับ Wave
     private int enemiesSpawned = 0;     // จำนวนศัตรูที่ Spawn แล้วใน Wave ปัจจุบัน
@@ -57,8 +59,17 @@ public class EnemySpawner : MonoBehaviour
     {
         if (waves[currentWaveIndex].enemyPrefabs.Length > 0)
         {
-            int randomIndex = Random.Range(0, waves[currentWaveIndex].enemyPrefabs.Length); // เลือก Prefab แบบสุ่ม
-            Instantiate(waves[currentWaveIndex].enemyPrefabs[randomIndex], spawnPoint.position, spawnPoint.rotation);
+            int randomIndex = Random.Range(0, waves[currentWaveIndex].enemyPrefabs.Length);
+            GameObject enemyObject = Instantiate(waves[currentWaveIndex].enemyPrefabs[randomIndex], spawnPoint.position, spawnPoint.rotation);
+
+            if (isSkillActive)
+            {
+                Enemy enemy = enemyObject.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.StopEnemy(GameManager.Instance.skillDuration);
+                }
+            }
         }
     }
 

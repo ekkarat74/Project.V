@@ -11,6 +11,11 @@ public class GameManager : MonoBehaviour
     public Button mainMenuButton;    // ปุ่มกลับไปที่เมนูหลัก
     public Button speedUpButton;     // ปุ่มเร่งความเร็วเกม
 
+    [Header("Skill System")]
+    public Button skillButton; // ปุ่มสำหรับใช้งานสกิล
+    public float skillDuration = 5f; // ระยะเวลาของสกิล
+    private bool isSkillActive = false; // สถานะของสกิล
+    
     private bool isSpeedUp = false;  // ตัวบ่งชี้ว่าเกมกำลังเร่งความเร็วหรือไม่
 
     private void Awake()
@@ -46,6 +51,11 @@ public class GameManager : MonoBehaviour
         {
             speedUpButton.onClick.AddListener(ToggleSpeedUp);
         }
+        
+        if (skillButton != null)
+        {
+            skillButton.onClick.AddListener(ActivateSkill);
+        }
     }
 
     // ฟังก์ชันเรียกเมื่อ TowerEnemy หรือ TowerRanger ถูกทำลาย
@@ -72,5 +82,29 @@ public class GameManager : MonoBehaviour
         isSpeedUp = !isSpeedUp;
         Time.timeScale = isSpeedUp ? 2f : 1f; // ถ้าเร่งความเร็วจะใช้ 2 เท่า ถ้าไม่เร่งจะใช้ 1 เท่า
         Debug.Log(isSpeedUp ? "เกมกำลังเร่งความเร็ว" : "เกมกลับสู่ความเร็วปกติ");
+    }
+    
+    void ActivateSkill()
+    {
+        if (!isSkillActive)
+        {
+            isSkillActive = true;
+            Debug.Log("สกิลทำงาน: หยุดศัตรูทั้งหมด");
+        
+            Enemy[] enemies = FindObjectsOfType<Enemy>();
+            foreach (var enemy in enemies)
+            {
+                enemy.StopEnemy(skillDuration);
+            }
+
+            // เรียกคืนสถานะหลังจากระยะเวลาสกิลสิ้นสุด
+            Invoke(nameof(ResetSkill), skillDuration);
+        }
+    }
+
+    void ResetSkill()
+    {
+        isSkillActive = false;
+        Debug.Log("สกิลสิ้นสุด: ศัตรูกลับมาเคลื่อนที่");
     }
 }

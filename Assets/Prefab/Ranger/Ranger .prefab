@@ -231,7 +231,7 @@ MonoBehaviour:
   expToNextLevel: 100
   bonusHealthPerLevel: 20
   projectileSpeed: 15
-  projectileDamage: 30
+  projectileDamage: 100
   projectileLifetime: 3
   rangerTypeIndex: 0
   currentSkill: 0
@@ -240,8 +240,6 @@ MonoBehaviour:
   explosiveRadius: 3
   explosiveDamage: 20
   rapidFireMultiplier: 2
-  healAmount: 50
-  healThreshold: 0.2
   equipmentPrefabs:
   - {fileID: 2028472100205862762, guid: 691e9eccad4fd7f46bb865d11d39f8f0, type: 3}
 --- !u!1 &4215659866348341725

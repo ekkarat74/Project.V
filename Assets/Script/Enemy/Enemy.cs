@@ -19,6 +19,9 @@ public class Enemy : MonoBehaviour
 
     private Transform target;          // เป้าหมาย (Ranger)
 
+    private bool isStopped = false; // สถานะว่าศัตรูถูกหยุดหรือไม่
+    private float stopTimer = 0f;   // ตัวจับเวลาเมื่อศัตรูถูกหยุด
+    
     // Enum สำหรับเลือกประเภทการโจมตี
     public enum AttackMode
     {
@@ -31,6 +34,18 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if (isStopped)
+        {
+            stopTimer -= Time.deltaTime;
+            if (stopTimer <= 0)
+            {
+                isStopped = false;
+                speed = 1.5f; // คืนค่าความเร็วเดิม
+                attackRate = 1f; // คืนค่าอัตราการโจมตีเดิม
+            }
+            return; // หยุดการทำงานของ Update เมื่อถูกหยุด
+        }
+        
         attackCooldown -= Time.deltaTime; // ลด cooldown ทุกๆ frame
 
         // ค้นหา Ranger และ TowerRanger ในระยะ
@@ -130,6 +145,17 @@ public class Enemy : MonoBehaviour
         else
         {
             attackRate = 1f; // ค่าเริ่มต้น (ปกติ)
+        }
+    }
+    
+    public void StopEnemy(float duration)
+    {
+        if (!isStopped)
+        {
+            isStopped = true;
+            stopTimer = duration;
+            speed = 0; // หยุดการเคลื่อนที่
+            attackRate = 0; // หยุดการโจมตี
         }
     }
 }

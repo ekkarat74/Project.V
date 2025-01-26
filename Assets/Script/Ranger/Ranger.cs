@@ -44,9 +44,14 @@ public class Ranger : MonoBehaviour
     // คุณสมบัติของกระสุน
     [Header("Projectile Properties")]
     public float projectileSpeed = 5f;      // ความเร็วของกระสุน
-    public int projectileDamage = 10;       // ความเสียหายของกระสุน
-    public float projectileLifetime = 3f;   // อายุของกระสุนก่อนทำลายตัวเอง
+    [Range(100, 200)]                      // เพิ่มตัวควบคุมช่วงใน Inspector
+    public int projectileDamage = 100;     // ความเสียหายของกระสุน
+    public float projectileLifetime = 3f;  // อายุของกระสุนก่อนทำลายตัวเอง
 
+    [Header("Critical Hit System")]
+    public float criticalChance = 0.1f; // โอกาสในการคริติคอล (10%)
+    public float criticalMultiplier = 2f; // คูณดาเมจเมื่อคริติคอล
+    
     private static RangerUIController uiController;
 
     [Header("Ranger Type")]
@@ -147,7 +152,22 @@ public class Ranger : MonoBehaviour
     {
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         ProjectileBehavior projectileBehavior = projectile.AddComponent<ProjectileBehavior>();
-        projectileBehavior.Initialize(target, projectileSpeed, projectileDamage, projectileLifetime);
+
+        // สุ่มดาเมจในช่วง 100-200
+        int randomizedDamage = Random.Range(100, 201);
+
+        // ตรวจสอบคริติคอล
+        if (Random.value <= criticalChance)
+        {
+            randomizedDamage = Mathf.RoundToInt(randomizedDamage * criticalMultiplier);
+            Debug.Log($"Critical Hit! Damage: {randomizedDamage}");
+        }
+        else
+        {
+            Debug.Log($"Projectile Damage: {randomizedDamage}");
+        }
+
+        projectileBehavior.Initialize(target, projectileSpeed, randomizedDamage, projectileLifetime);
     }
 
     void ShootPowerShot()
