@@ -90,7 +90,14 @@ public class GameManager : MonoBehaviour
         {
             isSkillActive = true;
             Debug.Log("สกิลทำงาน: หยุดศัตรูทั้งหมด");
-        
+
+            // ปิดการใช้งานปุ่มหลังจากกดใช้สกิล
+            if (skillButton != null)
+            {
+                skillButton.interactable = false;
+            }
+
+            // หยุดการเคลื่อนที่ของศัตรู
             Enemy[] enemies = FindObjectsOfType<Enemy>();
             foreach (var enemy in enemies)
             {

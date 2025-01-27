@@ -12,44 +12,39 @@ public class TowerRanger : MonoBehaviour
 
     void Update()
     {
-        attackCooldown -= Time.deltaTime; // ลดเวลาการ Cooldown ของการยิง
+        attackCooldown -= Time.deltaTime; 
 
-        // หากมีเป้าหมายในระยะและยังไม่ได้ทำการยิง
         if (isTargetInRange && attackCooldown <= 0f)
         {
-            Shoot();  // ยิงกระสุน
-            attackCooldown = 1f / attackRate; // รีเซ็ต Cooldown
+            Shoot();
+            attackCooldown = 1f / attackRate; 
         }
     }
 
     void Shoot()
     {
-        // ตรวจสอบว่า firePoint และ projectilePrefab ถูกตั้งค่าหรือไม่
         if (firePoint != null && projectilePrefab != null)
         {
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation); // ยิงกระสุน
+            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ตรวจจับว่า Tag คือ "Enemy"
         if (collision.CompareTag("Enemy"))
         {
-            // ตรวจสอบว่าตัวละครที่เข้ามาอยู่ในระยะ
             if (Vector2.Distance(transform.position, collision.transform.position) <= detectionRadius)
             {
-                isTargetInRange = true; // ตั้งสถานะให้มีเป้าหมายในระยะ
+                isTargetInRange = true;
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // ถ้าเป้าหมายออกจากระยะให้ลบสถานะ
         if (collision.CompareTag("Enemy"))
         {
-            isTargetInRange = false; // ไม่มีเป้าหมายในระยะ
+            isTargetInRange = false;
         }
     }
 
@@ -66,6 +61,6 @@ public class TowerRanger : MonoBehaviour
     {
         Debug.Log("TowerRanger ถูกทำลาย!");
         GameManager.Instance.EndGame("TowerRanger");
-        Destroy(gameObject); // ทำลาย TowerRanger
+        Destroy(gameObject);
     }
 }
