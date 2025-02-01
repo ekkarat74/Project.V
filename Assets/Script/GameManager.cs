@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,8 +9,15 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Elements")]
     public GameObject gameOverPanel; // Panel ที่จะแสดงเมื่อเกมจบ
+    public GameObject winPanel;      // Panel ที่จะแสดงเมื่อผู้เล่นชนะ
+    public TextMeshProUGUI countdownText;       // Text UI สำหรับแสดงเวลาถอยหลัง
     public Button mainMenuButton;    // ปุ่มกลับไปที่เมนูหลัก
     public Button speedUpButton;     // ปุ่มเร่งความเร็วเกม
+
+    [Header("Game Settings")]
+    public float countdownTime = 60f; // เวลาถอยหลังเริ่มต้น (หน่วย: วินาที)
+    private float currentTime;        // เวลาปัจจุบันที่เหลือ
+    private bool isGameOver = false;  // สถานะเกมจบ
 
     [Header("Skill System")]
     public Button skillButton; // ปุ่มสำหรับใช้งานสกิล
@@ -34,10 +42,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // ซ่อน Game Over Panel เริ่มต้น
+        // เริ่มต้นเวลาถอยหลัง
+        currentTime = countdownTime;
+
+        // ซ่อน Game Over และ Win Panel เริ่มต้น
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(false);
+        }
+        if (winPanel != null)
+        {
+            winPanel.SetActive(false);
         }
 
         // ผูกฟังก์ชันกับปุ่ม Main Menu
@@ -58,10 +73,55 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (!isGameOver)
+        {
+            // อัปเดตเวลาถอยหลัง
+            currentTime -= Time.deltaTime;
+
+            // แสดงเวลาถอยหลังใน Text UI
+            if (countdownText != null)
+            {
+                countdownText.text = "Time: " + Mathf.Max(0, Mathf.FloorToInt(currentTime)).ToString();
+            }
+
+            // ตรวจสอบว่าเวลาหมดหรือไม่
+            if (currentTime <= 0)
+            {
+                GameOver();
+            }
+        }
+    }
+
     // ฟังก์ชันเรียกเมื่อ TowerEnemy หรือ TowerRanger ถูกทำลาย
     public void EndGame(string losingSide)
     {
-        Debug.Log($"{losingSide} ถูกทำลาย! เกมจบแล้ว!");
+        if (losingSide == "TowerEnemy")
+        {
+            WinGame();
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    // ฟังก์ชันสำหรับแสดงหน้า Win
+    private void WinGame()
+    {
+        isGameOver = true;
+        Time.timeScale = 0; // หยุดเวลา
+        if (winPanel != null)
+        {
+            winPanel.SetActive(true); // แสดง Win Panel
+        }
+    }
+
+    // ฟังก์ชันสำหรับแสดงหน้า Game Over
+    private void GameOver()
+    {
+        isGameOver = true;
         Time.timeScale = 0; // หยุดเวลา
         if (gameOverPanel != null)
         {

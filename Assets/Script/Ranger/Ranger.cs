@@ -1,4 +1,7 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using System.Linq;
 
 public class Ranger : MonoBehaviour
@@ -39,6 +42,13 @@ public class Ranger : MonoBehaviour
     public int expToNextLevel = 100;        // EXP ที่ต้องการสำหรับเลเวลถัดไป
     public int bonusHealthPerLevel = 20;    // โบนัสพลังชีวิตต่อเลเวล
 
+    [Header("UI Components")]
+    public Slider hpSlider;
+    public TextMeshProUGUI hpText;  // เพิ่มตัวแสดงค่าตัวเลข HP
+    public Image hpFill;  // อ้างอิงไปที่ Fill Area ของ Slider
+    
+    private SpriteRenderer spriteRenderer;
+    private bool isBlinking = false;
     private Transform target;               // เป้าหมายปัจจุบัน
 
     // คุณสมบัติของกระสุน
@@ -75,13 +85,11 @@ public class Ranger : MonoBehaviour
 
     [Header("Equipment System")]
     public GameObject[] equipmentPrefabs; // อุปกรณ์ที่ติดตั้งบน Ranger
-
-    private float baseSpeed = 2f;               // ความเร็วพื้นฐาน
-    private float baseAttackRate = 1f;          // อัตราการยิงพื้นฐาน
-    private float baseDetectionRadius = 5f;     // ระยะตรวจจับพื้นฐาน
     
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        
         if (uiController == null)
         {
             uiController = FindObjectOfType<RangerUIController>();
@@ -89,7 +97,19 @@ public class Ranger : MonoBehaviour
 
         uiController?.AddRangerUI(this, rangerTypeIndex);
 
-        ApplyEquipmentStats(); // ใช้ค่าความสามารถจากอุปกรณ์
+        ApplyEquipmentStats(); 
+
+        // ตั้งค่า HP Slider
+        if (hpSlider != null)
+        {
+            hpSlider.maxValue = health;
+            hpSlider.value = health;
+        }
+        
+        if (hpText != null)
+        {
+            hpText.text = hpSlider.maxValue + " / " + health.ToString();
+        }
     }
     
     void Update()
@@ -195,16 +215,29 @@ public class Ranger : MonoBehaviour
             LevelUp();
         }
     }
-
+    
     void LevelUp()
     {
         level++;
         currentExp -= expToNextLevel;
         expToNextLevel += 50;
         health += bonusHealthPerLevel;
+
+        if (hpSlider != null)
+        {
+            hpSlider.maxValue = health;
+            hpSlider.value = health;
+        }
+
+        if (hpText != null)
+        {
+            hpText.text = hpSlider.maxValue + " / " + health.ToString();
+        }
+
         Debug.Log($"Ranger เลเวลอัพ! เลเวล: {level}");
     }
     
+    //Use ITEM
     void ApplyEquipmentStats()
     {
         // ตรวจสอบว่ามีอุปกรณ์ติดตั้งหรือไม่
@@ -245,9 +278,61 @@ public class Ranger : MonoBehaviour
         Debug.Log($"Ranger Stats - Speed: {speed}, Attack Rate: {attackRate}, Detection Radius: {detectionRadius}");
     }
     
+    void UpdateHPBar()
+    {
+        if (hpFill != null)
+        {
+            float hpPercentage = health / hpSlider.maxValue;
+            if (hpPercentage > 0.6f)
+                hpFill.color = Color.green;
+            else if (hpPercentage > 0.3f)
+                hpFill.color = Color.yellow;
+            else
+                hpFill.color = Color.red;
+        }
+    }
+    
+    IEnumerator BlinkHPBar()
+    {
+        while (health > 0 && health / hpSlider.maxValue < 0.3f)
+        {
+            hpFill.enabled = !hpFill.enabled;
+            yield return new WaitForSeconds(0.5f);
+        }
+        hpFill.enabled = true;
+        isBlinking = false;
+    }
+    
+    IEnumerator FlashRed()
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        spriteRenderer.color = Color.white;
+    }
+    
     public void TakeDamage(int damage)
     {
         health -= damage;
+
+        if (hpSlider != null)
+        {
+            hpSlider.value = health;
+        }
+
+        if (hpText != null)
+        {
+            hpText.text = hpSlider.maxValue + " / " + health.ToString();
+        }
+        
+        UpdateHPBar();
+        StartCoroutine(FlashRed()); 
+        
+        if (health / hpSlider.maxValue < 0.3f && !isBlinking)
+        {
+            isBlinking = true;
+            StartCoroutine(BlinkHPBar());
+        }
+        
         if (health <= 0)
         {
             Die();

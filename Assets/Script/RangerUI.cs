@@ -7,9 +7,8 @@ public class RangerUI : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI expText;
-    public TextMeshProUGUI skillText;
 
-    private Ranger currentRanger;  // อ้างอิงไปยัง Ranger ที่ถูกสร้าง
+    private Ranger currentRanger; 
 
     public void UpdateRangerStats(Ranger ranger)
     {
