@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d417573c8306e7a42b0a6171b255caba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rangerType: 1
   speed: 5
   health: 150
   projectilePrefab: {fileID: 3701983333545765762, guid: c8f2e26593d3fc84283c12e9bd56f5e4, type: 3}

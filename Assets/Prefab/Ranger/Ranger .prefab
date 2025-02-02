@@ -219,14 +219,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d417573c8306e7a42b0a6171b255caba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rangerType: 0
   speed: 2
   health: 100
   projectilePrefab: {fileID: 3701983333545765762, guid: c8f2e26593d3fc84283c12e9bd56f5e4, type: 3}
   firePoint: {fileID: 172109408874808453}
   attackRate: 1
   detectionRadius: 8
-  spawnCooldown: 5
-  mineralCost: 300
+  spawnCooldown: 4
+  mineralCost: 200
   level: 1
   currentExp: 0
   expToNextLevel: 100
@@ -234,11 +235,10 @@ MonoBehaviour:
   hpSlider: {fileID: 5034984581379571868}
   hpText: {fileID: 205821092782608757}
   hpFill: {fileID: 3076504266507584658}
-  hpBarSpeed: 10
   projectileSpeed: 15
   projectileDamage: 100
   projectileLifetime: 3
-  criticalChance: 0.1
+  criticalChance: 0.2
   criticalMultiplier: 2
   rangerTypeIndex: 0
   currentSkill: 0

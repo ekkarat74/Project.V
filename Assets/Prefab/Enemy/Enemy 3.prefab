@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 826909163515407437}
   - component: {fileID: 6756472594572543720}
   m_Layer: 7
-  m_Name: Enemy 2
+  m_Name: Enemy 3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4340725, g: 0, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -219,13 +219,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  health: 3000
-  projectilePrefab: {fileID: 3701983333545765762, guid: 36dcc5aa30b06ff428dfb5beb48445e8, type: 3}
+  health: 3500
+  projectilePrefab: {fileID: 3701983333545765762, guid: b6e94e2d989e14b48b2e825aa73017f2, type: 3}
   firePoint: {fileID: 505672792563862391}
   attackRate: 1
   detectionRadius: 7
   expValue: 20
-  currentAttackMode: 2
+  currentAttackMode: 1
 --- !u!1 &4879674835476951510
 GameObject:
   m_ObjectHideFlags: 0

@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d417573c8306e7a42b0a6171b255caba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rangerType: 2
   speed: 2
   health: 60
   projectilePrefab: {fileID: 3701983333545765762, guid: c8f2e26593d3fc84283c12e9bd56f5e4, type: 3}
@@ -226,7 +227,7 @@ MonoBehaviour:
   attackRate: 1
   detectionRadius: 10
   spawnCooldown: 1
-  mineralCost: 400
+  mineralCost: 300
   level: 1
   currentExp: 0
   expToNextLevel: 100
@@ -247,7 +248,7 @@ MonoBehaviour:
   explosiveDamage: 20
   rapidFireMultiplier: 2
   equipmentPrefabs:
-  - {fileID: 8308585529269189550, guid: 0811d6c6783d96b4496aa610d8d22e4c, type: 3}
+  - {fileID: 5961822443883744763, guid: a022a03863a52b94e96876d431247aa4, type: 3}
 --- !u!1 &2015441713380604544
 GameObject:
   m_ObjectHideFlags: 0

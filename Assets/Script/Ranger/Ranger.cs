@@ -14,6 +14,17 @@ public class Ranger : MonoBehaviour
         RapidFire,      // สกิล 3: ยิงเร็วขึ้นเมื่อศัตรูเข้าใกล้
     }
 
+    public enum RangerType
+    {
+        Agile,   // ว่องไว
+        Durable, // ทนทาน
+        Power    // พลัง
+    }
+    
+    // ประเภทของ Ranger
+    [Header("Ranger Type")]
+    public RangerType rangerType;
+    
     // คุณสมบัติพื้นฐานของ Ranger
     [Header("Basic Attributes")]
     public float speed = 2f;                 // ความเร็วการเคลื่อนที่
@@ -59,7 +70,7 @@ public class Ranger : MonoBehaviour
     public float projectileLifetime = 3f;  // อายุของกระสุนก่อนทำลายตัวเอง
 
     [Header("Critical Hit System")]
-    public float criticalChance = 0.1f; // โอกาสในการคริติคอล (10%)
+    public float criticalChance = 0.1f; // โอกาสในการคริติคอล 
     public float criticalMultiplier = 2f; // คูณดาเมจเมื่อคริติคอล
     
     private static RangerUIController uiController;
@@ -97,7 +108,8 @@ public class Ranger : MonoBehaviour
 
         uiController?.AddRangerUI(this, rangerTypeIndex);
 
-        ApplyEquipmentStats(); 
+        ApplyEquipmentStats();
+        ApplyRangerTypeStats();
 
         // ตั้งค่า HP Slider
         if (hpSlider != null)
@@ -108,7 +120,7 @@ public class Ranger : MonoBehaviour
         
         if (hpText != null)
         {
-            hpText.text = hpSlider.maxValue + " / " + health.ToString();
+            hpText.text = health.ToString();
         }
     }
     
@@ -231,7 +243,7 @@ public class Ranger : MonoBehaviour
 
         if (hpText != null)
         {
-            hpText.text = hpSlider.maxValue + " / " + health.ToString();
+            hpText.text = health.ToString();
         }
 
         Debug.Log($"Ranger เลเวลอัพ! เลเวล: {level}");
@@ -278,6 +290,27 @@ public class Ranger : MonoBehaviour
         Debug.Log($"Ranger Stats - Speed: {speed}, Attack Rate: {attackRate}, Detection Radius: {detectionRadius}");
     }
     
+    void ApplyRangerTypeStats()
+    {
+        switch (rangerType)
+        {
+            case RangerType.Agile: // ว่องไว
+                speed += 1.5f; // เพิ่มความเร็ว
+                attackRate += 0.5f; // เพิ่มอัตราการยิง
+                break;
+
+            case RangerType.Durable: // ทนทาน
+                health += 50; // เพิ่มพลังชีวิต
+                expToNextLevel -= 20; // อัพเลเวลเร็วขึ้น
+                break;
+
+            case RangerType.Power: // พลัง
+                projectileDamage += 20; // เพิ่มดาเมจของกระสุน
+                criticalChance += 0.1f; // เพิ่มโอกาสคริติคอล
+                break;
+        }
+    }
+    
     void UpdateHPBar()
     {
         if (hpFill != null)
@@ -321,7 +354,7 @@ public class Ranger : MonoBehaviour
 
         if (hpText != null)
         {
-            hpText.text = hpSlider.maxValue + " / " + health.ToString();
+            hpText.text = health.ToString();
         }
         
         UpdateHPBar();
@@ -351,7 +384,6 @@ public class Ranger : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
-    
 }
 
 public class ProjectileBehavior : MonoBehaviour

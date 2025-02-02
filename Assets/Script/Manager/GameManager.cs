@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Settings")]
     public float countdownTime = 60f; // เวลาถอยหลังเริ่มต้น (หน่วย: วินาที)
+    public Button pauseButton;
+    private bool isPaused = false;
     private float currentTime;        // เวลาปัจจุบันที่เหลือ
     private bool isGameOver = false;  // สถานะเกมจบ
 
@@ -45,6 +47,11 @@ public class GameManager : MonoBehaviour
         // เริ่มต้นเวลาถอยหลัง
         currentTime = countdownTime;
 
+        if (pauseButton != null)
+        {
+            pauseButton.onClick.AddListener(TogglePause);
+        }
+        
         // ซ่อน Game Over และ Win Panel เริ่มต้น
         if (gameOverPanel != null)
         {
@@ -92,6 +99,13 @@ public class GameManager : MonoBehaviour
                 GameOver();
             }
         }
+    }
+    
+    void TogglePause()
+    {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0 : 1;
+        Debug.Log(isPaused ? "เกมถูกหยุด" : "เกมเล่นต่อ");
     }
 
     // ฟังก์ชันเรียกเมื่อ TowerEnemy หรือ TowerRanger ถูกทำลาย
