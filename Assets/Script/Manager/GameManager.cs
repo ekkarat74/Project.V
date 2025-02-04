@@ -28,6 +28,14 @@ public class GameManager : MonoBehaviour
     
     private bool isSpeedUp = false;  // ตัวบ่งชี้ว่าเกมกำลังเร่งความเร็วหรือไม่
 
+    [Header("Difficulty Scaling")]
+    public float difficultyScaleRate = 0.1f; // อัตราการเพิ่มความยากต่อวินาที
+    public float currentDifficulty = 1f; // ค่าความยากปัจจุบัน
+    public float maxDifficulty = 5f; // ค่าความยากสูงสุด
+    public float enemySpawnRate = 2f; // อัตราการสปอว์นศัตรู
+    public float enemySpeedMultiplier = 1f; // ตัวคูณความเร็วของศัตรู
+    public float enemyDamageMultiplier = 1f; // ตัวคูณดาเมจของศัตรู
+
     private void Awake()
     {
         // ตรวจสอบว่า Instance มีอยู่แล้วหรือไม่
@@ -98,6 +106,9 @@ public class GameManager : MonoBehaviour
             {
                 GameOver();
             }
+
+            // อัปเดตความยาก
+            UpdateDifficulty();
         }
     }
     
@@ -187,5 +198,22 @@ public class GameManager : MonoBehaviour
     {
         isSkillActive = false;
         Debug.Log("สกิลสิ้นสุด: ศัตรูกลับมาเคลื่อนที่");
+    }
+
+    // ฟังก์ชันสำหรับอัปเดตความยาก
+    void UpdateDifficulty()
+    {
+        if (currentDifficulty < maxDifficulty)
+        {
+            currentDifficulty += difficultyScaleRate * Time.deltaTime;
+            currentDifficulty = Mathf.Min(currentDifficulty, maxDifficulty);
+
+            // ปรับค่าต่าง ๆ ตามความยาก
+            enemySpeedMultiplier = 1 + (currentDifficulty * 0.2f); // เพิ่มความเร็วศัตรู 20% ต่อระดับความยาก
+            enemyDamageMultiplier = 1 + (currentDifficulty * 0.1f); // เพิ่มดาเมจศัตรู 10% ต่อระดับความยาก
+            enemySpawnRate = 2 + (currentDifficulty * 0.5f); // เพิ่มอัตราการสปอว์นศัตรู 0.5 ต่อระดับความยาก
+
+            Debug.Log($"Difficulty: {currentDifficulty}, Enemy Speed: {enemySpeedMultiplier}, Enemy Damage: {enemyDamageMultiplier}, Spawn Rate: {enemySpawnRate}");
+        }
     }
 }

@@ -31,7 +31,10 @@ public class EnemySpawner : MonoBehaviour
         {
             spawnTimer += Time.deltaTime;
 
-            if (spawnTimer >= waves[currentWaveIndex].spawnInterval && enemiesSpawned < waves[currentWaveIndex].enemiesPerWave)
+            // ปรับอัตราการสปอว์นตามความยาก
+            float adjustedSpawnInterval = waves[currentWaveIndex].spawnInterval / GameManager.Instance.currentDifficulty;
+
+            if (spawnTimer >= adjustedSpawnInterval && enemiesSpawned < waves[currentWaveIndex].enemiesPerWave)
             {
                 SpawnEnemy();
                 spawnTimer = 0f;

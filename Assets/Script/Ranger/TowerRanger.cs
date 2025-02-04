@@ -10,6 +10,24 @@ public class TowerRanger : MonoBehaviour
     private float attackCooldown = 0f;     // ตัวจับเวลา Cooldown
     private bool isTargetInRange = false;  // ตัวแปรตรวจสอบว่ามีเป้าหมายในระยะหรือไม่
 
+    void Start()
+    {
+        Collider2D col = GetComponent<Collider2D>();
+        if (col == null)
+        {
+            col = gameObject.AddComponent<BoxCollider2D>(); // หรือ CircleCollider2D ตามต้องการ
+        }
+        col.isTrigger = true; // ต้องเปิดให้เป็น Trigger
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            rb = gameObject.AddComponent<Rigidbody2D>();
+        }
+        rb.isKinematic = true; // ตั้งค่าเป็น Kinematic เพื่อไม่ให้มีผลกับฟิสิกส์
+    }
+
+    
     void Update()
     {
         attackCooldown -= Time.deltaTime; 

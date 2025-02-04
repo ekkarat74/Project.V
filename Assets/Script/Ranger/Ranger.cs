@@ -404,6 +404,11 @@ public class ProjectileBehavior : MonoBehaviour
 
     void Update()
     {
+        if (target == null || !target.gameObject.activeInHierarchy) // ตรวจสอบว่าเป้าหมายถูกทำลายหรือไม่
+        {
+            FindNewTarget();
+        }
+
         if (target != null)
         {
             Vector2 direction = (target.position - transform.position).normalized;
@@ -411,9 +416,18 @@ public class ProjectileBehavior : MonoBehaviour
         }
         else
         {
-            // ค้นหาเป้าหมายใหม่เมื่อเป้าหมายเดิมหายไป
-            FindNewTarget();
+            Destroy(gameObject); // ถ้าไม่มีเป้าหมายใหม่ให้ทำลายตัวเอง
         }
+    }
+
+    private void FindNewTarget()
+    {
+        Collider2D[] detectedTargets = Physics2D.OverlapCircleAll(transform.position, 5f, LayerMask.GetMask("Enemy", "TowerEnemy"));
+        target = detectedTargets
+            .Where(c => c != null && c.gameObject.activeInHierarchy) // กรองเฉพาะเป้าหมายที่ยังอยู่ในเกม
+            .Select(c => c.transform)
+            .OrderBy(t => Vector2.Distance(transform.position, t.position))
+            .FirstOrDefault();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -437,24 +451,6 @@ public class ProjectileBehavior : MonoBehaviour
                 }
             }
 
-            Destroy(gameObject);
-        }
-    }
-
-    private void FindNewTarget()
-    {
-        Collider2D[] detectedTargets = Physics2D.OverlapCircleAll(transform.position, 5f, LayerMask.GetMask("Enemy", "TowerEnemy"));
-        if (detectedTargets.Length > 0)
-        {
-            target = detectedTargets
-                .Select(c => c.transform)
-                .OrderBy(t => Vector2.Distance(transform.position, t.position))
-                .FirstOrDefault();
-        }
-
-        if (target == null)
-        {
-            // หากไม่มีเป้าหมายใหม่ ทำลายกระสุน
             Destroy(gameObject);
         }
     }

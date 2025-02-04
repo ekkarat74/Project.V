@@ -32,6 +32,23 @@ public class Enemy : MonoBehaviour
 
     public AttackMode currentAttackMode = AttackMode.NormalAttack; // โหมดโจมตีเริ่มต้น
 
+    private float originalSpeed; // ความเร็วเริ่มต้น
+    private float originalAttackRate; // อัตราการโจมตีเริ่มต้น
+
+    void Start()
+    {
+        originalSpeed = speed;
+        originalAttackRate = attackRate;
+        ApplyDifficulty();
+    }
+
+    void ApplyDifficulty()
+    {
+        // ปรับความเร็วและดาเมจตามค่าความยาก
+        speed = originalSpeed * GameManager.Instance.enemySpeedMultiplier;
+        attackRate = originalAttackRate * GameManager.Instance.enemyDamageMultiplier;
+    }
+
     void Update()
     {
         if (isStopped)
@@ -40,8 +57,8 @@ public class Enemy : MonoBehaviour
             if (stopTimer <= 0)
             {
                 isStopped = false;
-                speed = 1.5f; // คืนค่าความเร็วเดิม
-                attackRate = 1f; // คืนค่าอัตราการโจมตีเดิม
+                speed = originalSpeed; // คืนค่าความเร็วเดิม
+                attackRate = originalAttackRate; // คืนค่าอัตราการโจมตีเดิม
             }
             return; // หยุดการทำงานของ Update เมื่อถูกหยุด
         }
@@ -90,16 +107,21 @@ public class Enemy : MonoBehaviour
     // ฟังก์ชันเลือกเป้าหมาย
     Transform SelectTarget(Collider2D[] detectedTargets)
     {
+        if (detectedTargets == null || detectedTargets.Length == 0)
+            return null;
+
         switch (currentAttackMode)
         {
             case AttackMode.TargetLowestHealth:
                 return detectedTargets
                     .Select(target => target.transform)
+                    .Where(target => target.GetComponent<Ranger>() != null) // ตรวจสอบว่า target มีคอมโพเนนต์ Ranger หรือไม่
                     .OrderBy(target => target.GetComponent<Ranger>().health) // ค้นหาที่มีพลังชีวิตต่ำที่สุด
                     .FirstOrDefault();
             case AttackMode.NearestRanger:
                 return detectedTargets
                     .Select(target => target.transform)
+                    .Where(target => target.GetComponent<Ranger>() != null) // ตรวจสอบว่า target มีคอมโพเนนต์ Ranger หรือไม่
                     .OrderBy(target => Vector2.Distance(transform.position, target.position)) // ค้นหาที่ใกล้ที่สุด
                     .FirstOrDefault();
             case AttackMode.NormalAttack:
