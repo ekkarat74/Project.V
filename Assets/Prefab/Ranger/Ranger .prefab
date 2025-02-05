@@ -249,6 +249,7 @@ MonoBehaviour:
   rapidFireMultiplier: 2
   equipmentPrefabs:
   - {fileID: 2028472100205862762, guid: 691e9eccad4fd7f46bb865d11d39f8f0, type: 3}
+  - {fileID: 5961822443883744763, guid: a022a03863a52b94e96876d431247aa4, type: 3}
 --- !u!1 &790742724178253070
 GameObject:
   m_ObjectHideFlags: 0

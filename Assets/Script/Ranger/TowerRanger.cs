@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerRanger : MonoBehaviour
 {
@@ -10,8 +11,16 @@ public class TowerRanger : MonoBehaviour
     private float attackCooldown = 0f;     // ตัวจับเวลา Cooldown
     private bool isTargetInRange = false;  // ตัวแปรตรวจสอบว่ามีเป้าหมายในระยะหรือไม่
 
+    public Slider hpBar; // Slider แสดงค่า HP
+    
     void Start()
     {
+        if (hpBar != null)
+        {
+            hpBar.maxValue = health;
+            hpBar.value = health;
+        }
+        
         Collider2D col = GetComponent<Collider2D>();
         if (col == null)
         {
@@ -69,6 +78,10 @@ public class TowerRanger : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        if (hpBar != null)
+        {
+            hpBar.value = health;
+        }
         if (health <= 0)
         {
             Die();
