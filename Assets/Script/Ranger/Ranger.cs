@@ -16,6 +16,7 @@ public class Ranger : MonoBehaviour
 
     public enum RangerType
     {
+        None,
         Agile,   // ว่องไว
         Durable, // ทนทาน
         Power    // พลัง
