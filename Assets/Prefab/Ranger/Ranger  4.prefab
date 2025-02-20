@@ -227,7 +227,7 @@ MonoBehaviour:
   attackRate: 1.5
   detectionRadius: 1
   spawnCooldown: 3
-  mineralCost: 100
+  mineralCost: 50
   level: 1
   currentExp: 0
   expToNextLevel: 100

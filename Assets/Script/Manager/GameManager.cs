@@ -8,15 +8,16 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance; // ทำให้เป็น Singleton เพื่อให้เรียกใช้งานได้ง่าย
 
     [Header("UI Elements")]
-    public GameObject gameOverPanel; // Panel ที่จะแสดงเมื่อเกมจบ
-    public GameObject winPanel;      // Panel ที่จะแสดงเมื่อผู้เล่นชนะ
+    public GameObject gameOverPanel;
+    public GameObject winPanel;
+    public GameObject pausePanel;
     public TextMeshProUGUI countdownText;       // Text UI สำหรับแสดงเวลาถอยหลัง
-    public Button mainMenuButton;    // ปุ่มกลับไปที่เมนูหลัก
-    public Button speedUpButton;     // ปุ่มเร่งความเร็วเกม
+    public Button pauseButton;
+    public Button resumeButton; // ปุ่มเล่นต่อ
 
     [Header("Game Settings")]
     public float countdownTime = 60f; // เวลาถอยหลังเริ่มต้น (หน่วย: วินาที)
-    public Button pauseButton;
+    public Button speedUpButton; // ปุ่มเร่งความเร็วเกม
     private bool isPaused = false;
     private float currentTime;        // เวลาปัจจุบันที่เหลือ
     private bool isGameOver = false;  // สถานะเกมจบ
@@ -60,6 +61,11 @@ public class GameManager : MonoBehaviour
             pauseButton.onClick.AddListener(TogglePause);
         }
         
+        if (resumeButton != null)
+        {
+            resumeButton.onClick.AddListener(TogglePause); 
+        }
+        
         // ซ่อน Game Over และ Win Panel เริ่มต้น
         if (gameOverPanel != null)
         {
@@ -69,13 +75,7 @@ public class GameManager : MonoBehaviour
         {
             winPanel.SetActive(false);
         }
-
-        // ผูกฟังก์ชันกับปุ่ม Main Menu
-        if (mainMenuButton != null)
-        {
-            mainMenuButton.onClick.AddListener(GoToMainMenu);
-        }
-
+        
         // ผูกฟังก์ชันกับปุ่มเร่งความเร็ว
         if (speedUpButton != null)
         {
@@ -116,9 +116,15 @@ public class GameManager : MonoBehaviour
     {
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
+    
+        if (pausePanel != null)
+        {
+            pausePanel.SetActive(isPaused); // แสดงหรือซ่อน Pause Panel
+        }
+
         Debug.Log(isPaused ? "เกมถูกหยุด" : "เกมเล่นต่อ");
     }
-
+    
     // ฟังก์ชันเรียกเมื่อ TowerEnemy หรือ TowerRanger ถูกทำลาย
     public void EndGame(string losingSide)
     {

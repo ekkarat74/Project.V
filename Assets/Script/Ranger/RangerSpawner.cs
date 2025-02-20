@@ -4,15 +4,19 @@ using TMPro;
 
 public class RangerSpawner : MonoBehaviour
 {
+    [Header("Prefab Ranger")]
     public GameObject[] rangerPrefabs;    // อาเรย์สำหรับเก็บ Prefab ของ Ranger
+    [Header("Button Spawn")]
     public Button[] spawnButtons;        // ปุ่ม UI สำหรับ Spawn Ranger
+    [Header("Cooldown Text")]
     public TextMeshProUGUI[] cooldownTexts; // TMP UI สำหรับแสดงเวลาคูลดาวน์ของแต่ละปุ่ม
+    [Header("Mineral Text")]
     public TextMeshProUGUI[] mineralCostTexts; // TMP UI สำหรับแสดงค่าแร่ที่ต้องใช้ของแต่ละปุ่ม
     public Transform spawnPoint;         // ตำแหน่งที่ใช้ Spawn
-    public MineralSystem mineralSystem;  // อ้างอิงระบบแร่
     
+    public MineralSystem mineralSystem;
+    public RangerUI rangerUI;
     private float[] cooldownTimers;      // ตัวจับเวลาสำหรับคูลดาวน์ของแต่ละปุ่ม
-    public RangerUI rangerUI;            // อ้างอิงไปยัง Ranger UI
 
     void Start()
     {
