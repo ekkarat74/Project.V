@@ -26,8 +26,8 @@ public class CameraControl : MonoBehaviour
         }
 
         // ======== การซูมกล้อง ========
-        float scroll = Input.GetAxis("Mouse ScrollWheel"); // ตรวจสอบการหมุน Scroll Wheel
+        /*float scroll = Input.GetAxis("Mouse ScrollWheel"); // ตรวจสอบการหมุน Scroll Wheel
         Camera.main.orthographicSize -= scroll * zoomSpeed;
-        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, minZoom, maxZoom);
+        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, minZoom, maxZoom);*/
     }
 }
