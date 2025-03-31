@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
             // แสดงเวลาถอยหลังใน Text UI
             if (countdownText != null)
             {
-                countdownText.text = "Time: " + Mathf.Max(0, Mathf.FloorToInt(currentTime)).ToString();
+                countdownText.text = "Time : " + Mathf.Max(0, Mathf.FloorToInt(currentTime)).ToString();
             }
 
             // ตรวจสอบว่าเวลาหมดหรือไม่

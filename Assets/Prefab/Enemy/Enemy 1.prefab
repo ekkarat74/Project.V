@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  health: 2500
+  health: 2000
   projectilePrefab: {fileID: 3701983333545765762, guid: d8c8b193267ba574d99fb3430b0a5658, type: 3}
   firePoint: {fileID: 505672792563862391}
   attackRate: 1.5
